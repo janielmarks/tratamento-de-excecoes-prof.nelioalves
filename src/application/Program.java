@@ -1,14 +1,6 @@
+import model.exceptions.BusinessException;
 import model.entities.Account;
-import model.entities.Reservation;
-import model.exceptions.DomainException;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.channels.Pipe.SourceChannel;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -37,15 +29,14 @@ public class Program {
         System.out.print("Informe uma quantia para sacar: ");
         double amount = sc.nextDouble();
 
-
-        String error = acc.validateWithdraw(amount);
-        if (error != null) {
-        System.out.println(error);
-        }
-         else {
+         try {
             acc.withdraw(amount);
             System.out.printf("Novo saldo: %.2f%n", acc.getBalance());
         }
+         catch (BusinessException e) {
+             System.out.println(e.getMessage());
+
+         }
 
             sc.close();
         }
